@@ -1,0 +1,48 @@
+exclude: '^$'
+fail_fast: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: double-quote-string-fixer
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 5.0.4
+    hooks:
+      - id: flake8
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        language: python
+        entry: mypy
+        pass_filenames: false
+      - id: bandit
+        name: bandit
+        language: python
+        entry: bandit
+        args: [
+          '-x', 'tests',
+        ]
+        pass_filenames: true
+        types: [file]
+        files: .*\.py
+      - id: safety
+        name: safety
+        language: python
+        entry: safety check
+        pass_filenames: false
