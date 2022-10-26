@@ -43,7 +43,17 @@ def _team_points_from_file(file_: str) -> Dict[str, int]:
     return team_points
 
 
-def _generate_ranking_lines(tpt_list: List[TeamPointTotal]) -> List[str]:
+def _generate_ranking_lines(team_points: Dict[str, int]) -> List[str]:
+    # Sorts teams by points descending, then by team name ascending
+    tpt_list: List[TeamPointTotal] = [
+        TeamPointTotal(x[0], x[1])
+        for x in sorted(
+            team_points.items(),
+            key=lambda item: (-item[1], item[0]),
+        )
+    ]
+
+    # Build up list for output
     prev_point_total = None
     current_rank = 0
     ranks_skipped = 0
@@ -72,17 +82,7 @@ def main(input_file: str) -> List[str]:
     # Get team points for every game
     team_points = _team_points_from_file(input_file)
 
-    # Sorts teams by points descending, then by team name ascending
-    team_point_total_list: List[TeamPointTotal] = [
-        TeamPointTotal(x[0], x[1])
-        for x in sorted(
-            team_points.items(),
-            key=lambda item: (-item[1], item[0]),
-        )
-    ]
-
-    # Build up list for output
-    return _generate_ranking_lines(team_point_total_list)
+    return _generate_ranking_lines(team_points)
 
 
 def cli():

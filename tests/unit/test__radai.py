@@ -114,8 +114,56 @@ def test__team_points_from_file(mocker):
 
 
 def test__generate_ranking_lines():
-    pass
+    from radai.__main__ import _generate_ranking_lines
+
+    # GIVEN a dict of points by team
+    input_ = {
+        'Lions': 5,
+        'Snakes': 1,
+        'Tarantulas': 6,
+        'FC Awesome': 1,
+        'Grouches': 0,
+    }
+
+    # WHEN generating ranking lines from the input
+    actual = _generate_ranking_lines(input_)
+
+    # THEN teams are sorted by points, then name, w/ same rank for equal points
+    expected = [
+        '1. Tarantulas, 6 pts',
+        '2. Lions, 5 pts',
+        '3. FC Awesome, 1 pt',
+        '3. Snakes, 1 pt',
+        '5. Grouches, 0 pts'
+    ]
+    assert expected == actual
 
 
-def test__main():
-    pass
+def test__main(mocker):
+    from radai import main
+
+    # GIVEN valid input file
+    input_file_lines = [
+        'Lions 3, Snakes 3',
+        'Tarantulas 1, FC Awesome 0',
+        'Lions 1, FC Awesome 1',
+        'Tarantulas 3, Snakes 1',
+        'Lions 4, Grouches 0',
+    ]
+    input_file_content = '\n'.join(input_file_lines)
+
+    mock_open = mocker.mock_open(read_data=input_file_content)
+    mocker.patch('builtins.open', mock_open)
+
+    # WHEN invoking the main function
+    actual = main('dummy')
+
+    # THEN the lines are as expected
+    expected = [
+        '1. Tarantulas, 6 pts',
+        '2. Lions, 5 pts',
+        '3. FC Awesome, 1 pt',
+        '3. Snakes, 1 pt',
+        '5. Grouches, 0 pts'
+    ]
+    assert actual == expected
