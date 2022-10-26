@@ -7,20 +7,20 @@ TeamPointTotal = namedtuple(
     'TeamPointTotal',
     ['team', 'point_total']
 )
+TeamScore = namedtuple(
+    'TeamScore',
+    ['team', 'score']
+)
+
+
+def _team_score_from_entry(entry: str) -> TeamScore:
+    entry_list = entry.split()
+    score = entry_list[-1]
+    team = ' '.join(entry_list[:-1])
+    return TeamScore(team, int(score))
 
 
 def _team_points_from_file(file_: str) -> Dict[str, int]:
-    TeamScore = namedtuple(
-        'TeamScore',
-        ['team', 'score']
-    )
-
-    def _team_score_from_entry(entry: str) -> TeamScore:
-        entry_list = entry.split()
-        score = entry_list[-1]
-        team = ' '.join(entry_list[:-1])
-        return TeamScore(team, int(score))
-
     team_points: Dict[str, int] = defaultdict(int)
 
     with open(file_, 'r') as fp:
