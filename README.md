@@ -48,7 +48,7 @@ We request that you spend no more than a few hours on this portion of the interv
 ### After you finish
 
 - Please document any steps necessary to run your solution and your tests.
-- Please take 10 minutes to review your submission and list a few areas that would benefit from more time and attention. 
+- Please take 10 minutes to review your submission and list a few areas that would benefit from more time and attention.
 
 ## What to send back to our team
 
@@ -71,3 +71,28 @@ Please use platform-agnostic constructs where possible (line-endings and file-pa
 
 Once you have sent us your project, we will review the code with our team members and rate it appropiately.
 If everything looks fine, we would like to have a code review interview with you where we will be going over what you sent us, as well as requesting a few changes in the code to see if the output can be altered. An example of what you can be expecting can be seen in this documentation: [goal-differential-instructions.md](goal-differential-instructions.md)
+
+# Instructions
+
+## Dependencies
+
+- [pyenv](https://github.com/pyenv/pyenv)
+- [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
+
+## Getting Started
+
+```bash
+# Creates virtual environment/downloads dev dependencies
+# Installs the code as a package
+# Sets up pre-commit hooks
+make init
+
+# Run the package (args have defaults)
+radai --input-file=./sample-input.txt
+
+# Run all tests
+make test
+
+# Clean-up virtual environment
+make deinit
+```
